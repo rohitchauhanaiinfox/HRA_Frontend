@@ -7,7 +7,6 @@ import ProfileLayer from "../components/child/ProfileLayer";
 const Profile = () => {
     return (
         <>
-            {/* MasterLayout */}
             <MasterLayout>
 
                 <ProfileLayer />

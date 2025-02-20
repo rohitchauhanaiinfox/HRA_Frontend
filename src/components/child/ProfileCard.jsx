@@ -49,7 +49,7 @@ const ProfileCard = () => {
                         <div className="d-flex align-items-center flex-wrap mt-24 gap-16">
 
                             <Link
-                                to="#"
+                                to="/add-employee"
                                 className="btn rounded-pill btn-primary radius-8 px-28 py-11"
                             >
                                 Add Employee

@@ -2,20 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { apiGet } from "../../services/client";
+import { ClimbingBoxLoader } from "react-spinners";
 
-const CustomersCards = () => {
-    const [customers, setCustomers] = useState([]);
-
-    const getCustomers = async () => {
-        const res = await apiGet('customers');
-        console.log(res);
-        setCustomers(res?.data);
-    };
-
-    useEffect(() => {
-        getCustomers();
-    }, []);
-
+const CustomersCards = ({ customers }) => {
     return (
         <>
             <div className="col-xxl-6 col-lg-6">
@@ -46,20 +35,20 @@ const CustomersCards = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {customers.map((customer) => (
+                                    {customers?.map((customer) => (
                                         <tr key={customer.id}>
                                             <td>
                                                 <div className="d-flex align-items-center">
                                                     <span className="text-secondary-light fw-semibold flex-grow-1">
-                                                        {customer.customer_name}
+                                                        {customer?.customer_name}
                                                     </span>
                                                 </div>
                                             </td>
                                             <td>{customer.company_name}</td>
                                             <td>{customer.email}</td>
                                             <td className="text-center">
-                                                <span className={`bg-${customer.status === '1' ? 'success-focus' : 'danger-focus'} text-${customer.status === '1' ? 'success-main' : 'danger-main'} px-24 py-4 rounded-pill fw-medium text-sm`}>
-                                                    {customer.status == "1" ? "Active" : "Inactive"}
+                                                <span className={`bg-${customer?.status === '1' ? 'success-focus' : 'danger-focus'} text-${customer?.status === '1' ? 'success-main' : 'danger-main'} px-24 py-4 rounded-pill fw-medium text-sm`}>
+                                                    {customer?.status == "1" ? "Active" : "Inactive"}
                                                 </span>
                                             </td>
                                             <td className="text-center">
@@ -67,7 +56,7 @@ const CustomersCards = () => {
                                             </td>
                                         </tr>
                                     ))}
-                                    {(customers.length === 0 || customers == null) && (
+                                    {(customers?.length === 0 || customers == null) && (
                                         <tr>
                                             <td colSpan="6" className="text-center">No data found</td>
                                         </tr>

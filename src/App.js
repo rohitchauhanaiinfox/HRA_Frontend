@@ -11,6 +11,13 @@ import ResetPassword from "./auth/ResetPassword";
 import Customer from "./pages/Customer";
 import TimeSheet from "./pages/Timesheet";
 import PurchaseOrder from "./pages/PurchaseOrders";
+import Invoicing from "./pages/invoicing";
+import Masters from "./pages/Masters";
+import Role from "./pages/Role";
+import Company from "./pages/Company";
+import AddEmployee from "./pages/AddEmployee";
+import Attendence from "./pages/Attendence";
+import Projects from "./pages/Projects";
 
 function App() {
   return (
@@ -27,6 +34,13 @@ function App() {
         <Route exact path='/customer' element={<Protected_routes Component={Customer} />} />
         <Route exact path='/purchaseorder' element={<Protected_routes Component={PurchaseOrder} />} />
         <Route exact path='/timesheet' element={<Protected_routes Component={TimeSheet} />} />
+        <Route exact path='/invoicing' element={<Protected_routes Component={Invoicing} />} />
+        <Route exact path='/masters' element={<Protected_routes Component={Masters} />} />
+        <Route exact path='/roles-privileges' element={<Protected_routes Component={Role} />} />
+        <Route exact path='/company' element={<Protected_routes Component={Company} />} />
+        <Route exact path='/add-employee' element={<Protected_routes Component={AddEmployee} />} />
+        <Route exact path='/attendence' element={<Protected_routes Component={Attendence} />} />
+        <Route exact path='/projects' element={<Protected_routes Component={Projects} />} />
       </Routes>
     </BrowserRouter>
   );

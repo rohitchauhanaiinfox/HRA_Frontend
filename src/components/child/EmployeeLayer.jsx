@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import $ from 'jquery';
 import 'datatables.net-dt/js/dataTables.dataTables.js';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const EmployeeLayer = () => {
+    const navigate = useNavigate();
     useEffect(() => {
         const table = $('#dataTable').DataTable({
             pageLength: 10,
+            ordering: false,
         });
         return () => {
             table.destroy(true);
@@ -18,7 +20,11 @@ const EmployeeLayer = () => {
             <div className="card-body">
                 <div className="d-flex align-items-center justify-content-between mb-20">
                     <h3 className="text-lg font-semibold text-primary-600 mb-2">Employee</h3>
-                    <button type="submit" className="btn btn-primary-600" data-bs-toggle="modal" data-bs-target="#addcustomer">Add Employee</button>
+                    <button type="submit" className="btn btn-primary-600"
+                        onClick={() => {
+                            navigate('/add-employee');
+                        }}
+                    >Add Employee</button>
                 </div>
                 <table
                     className="table bordered-table mb-0"
@@ -36,7 +42,7 @@ const EmployeeLayer = () => {
                             <th scope="col">Invoice</th>
                             <th scope="col">Name</th>
                             <th scope="col">Issued Date</th>
-                            <th scope="col" className='dt-orderable-asc dt-orderable-desc'>Amount</th>
+                            <th scope="col">Amount</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>

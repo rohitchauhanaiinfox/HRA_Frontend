@@ -342,6 +342,11 @@
   display: none;
 }
 
+.focus-tab .nav-link.active {
+  background-color: var(--primary-600) !important;
+  color: white !important;
+}
+
 :where([contenteditable]:not([contenteditable="false"])) {
   -moz-user-modify: read-write;
   -webkit-user-modify: read-write;
@@ -15715,3 +15720,9 @@ td.fc-header-center {
 }
 
 /* === footer css end === */
+
+
+.my-col-class:not(:first-child) {
+  border-left: 1px solid #dee2e6;
+  /* Bootstrap's default border color */
+}

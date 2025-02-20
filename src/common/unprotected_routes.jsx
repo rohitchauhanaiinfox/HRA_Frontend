@@ -7,13 +7,10 @@ export default function UnProtected_routes(props) {
     const { Component } = props
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
-    const checkToken = async() => {
+    const checkToken = async () => {
         if (token) {
-            if (role=='user'){
-                navigate('/dashboard')
-            }else if (role=="admin"){
-                navigate("/admin-dashboard")
-            }
+            navigate("/dashboard")
+
         }
     }
     useEffect(() => {

@@ -105,7 +105,7 @@ const MasterLayout = ({ children }) => {
           <Icon icon='radix-icons:cross-2' />
         </button>
         <div>
-          <Link to='/' className='sidebar-logo'>
+          <Link to='/dashboard' className='sidebar-logo'>
             <img
               src='assets/images/logo_hrktech_full.png'
               alt='site logo'
@@ -148,6 +148,83 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
                     All Employees
                   </NavLink>
+                  {/* </li>
+                <li>
+                  <NavLink
+                    to='/attendence'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-danger w-auto' />{" "}
+                    Attendence
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/employee'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-primary w-auto' />{" "}
+                    Department
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/employee'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-primary-500 w-auto' />{" "}
+                    Designation
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/employee'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-primary-400 w-auto' />{" "}
+                    Duty Roster
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/employee'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-primary-300 w-auto' />{" "}
+                    Leaves
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/employee'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-primary-200 w-auto' />{" "}
+                    Holidays
+                  </NavLink>
+                </li>
+                <li> */}
+                  <NavLink
+                    to='/projects'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-primary-100 w-auto' />{" "}
+                    Projects
+                  </NavLink>
                 </li>
               </ul>
             </li>
@@ -183,7 +260,7 @@ const MasterLayout = ({ children }) => {
                 </li>
                 <li>
                   <NavLink
-                    to='/table-data'
+                    to='/invoicing'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
                     }
@@ -209,18 +286,76 @@ const MasterLayout = ({ children }) => {
                       navData.isActive ? "active-page" : ""
                     }
                   >
+                    <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
+                    Tasks
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/timesheet'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
                     <i className='ri-circle-fill circle-icon text-danger-main w-auto' />{" "}
                     Timesheet
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    to='/timesheet'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-danger-100 w-auto' />{" "}
+                    Projects
+                  </NavLink>
+                </li>
               </ul>
             </li>
+
             {/* Settings Dropdown */}
-            <li>
+            <li className='dropdown'>
               <Link to='#'>
                 <Icon icon='icon-park-outline:setting-two' className='menu-icon' />
                 <span>Settings</span>
               </Link>
+              <ul className='sidebar-submenu'>
+                <li>
+                  <NavLink
+                    to='/company'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
+                    Company
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/masters'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
+                    Masters
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to='/roles-privileges'
+                    className={(navData) =>
+                      navData.isActive ? "active-page" : ""
+                    }
+                  >
+                    <i className='ri-circle-fill circle-icon text-danger-main w-auto' />{" "}
+                    Roles & Privileges
+                  </NavLink>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -460,6 +595,7 @@ const MasterLayout = ({ children }) => {
                           to='/'
                           onClick={() => {
                             localStorage.removeItem('token');
+                            localStorage.removeItem('refreshToken');
                           }}
                         >
                           <Icon icon='lucide:power' className='icon text-xl' />{" "}

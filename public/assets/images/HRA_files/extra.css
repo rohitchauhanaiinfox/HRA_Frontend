@@ -1,0 +1,206 @@
+.jvm-zoom-btn.jvm-zoomin,
+.jvm-zoom-btn.jvm-zoomout {
+  top: 10px;
+  background: #d1d5db;
+  color: #111827;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+}
+
+.slick-dots {
+  display: flex !important;
+}
+
+.fc-toolbar-title {
+  font-size: 24px !important;
+  font-weight: 600;
+}
+
+.fc-button {
+  border-color: var(--primary-600) !important;
+  background: #fff !important;
+  color: var(--primary-600) !important;
+  font-weight: 600 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-width: 80px !important;
+}
+
+.fc-button:hover {
+  background-color: var(--primary-50) !important;
+}
+
+.fc-button-active {
+  color: #fff !important;
+  background-color: var(--primary-600) !important;
+}
+
+.fc-button-active:hover {
+  color: #fff !important;
+  background-color: var(--primary-600) !important;
+}
+
+.fc-button-active:focus,
+.fc .fc-button-primary:not(:disabled):active:focus {
+  box-shadow: none !important;
+}
+
+.fc-toolbar-chunk {
+  display: flex !important;
+}
+
+.fc .fc-button-primary:focus {
+  box-shadow: none !important;
+}
+
+.fc-h-event {
+  border: 0;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: var(--primary-50) !important;
+  color: var(--primary-600) !important;
+}
+
+.fc-h-event .fc-event-main {
+  border: 0;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: var(--primary-50) !important;
+  color: var(--primary-600) !important;
+}
+
+.fc-v-event .fc-event-main {
+  border: 0;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: var(--primary-50) !important;
+  color: var(--primary-600) !important;
+}
+
+.fc-daygrid-day-number {
+  transition: background-color 0.2s;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  border-radius: 50%;
+}
+
+.fc-daygrid-day:hover .fc-daygrid-day-number {
+  background-color: var(--primary-100) !important;
+  color: var(--primary-600) !important;
+  transition: background-color 0.2s;
+}
+
+.slider-progress .active {
+  transition: all 0.3s linear;
+}
+
+.slick-list {
+  margin: 0 -7px;
+}
+
+.slick-slide > div {
+  padding: 0 10px;
+}
+
+.center-gap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.inline-grid {
+  display: inline-grid;
+}
+
+.image-upload__boxInner.custom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table.dataTable th.dt-type-numeric,
+table.dataTable th.dt-type-date,
+table.dataTable td.dt-type-numeric,
+table.dataTable td.dt-type-date {
+  text-align: unset !important;
+}
+
+/* Hide all submenus by default */
+.sidebar-submenu {
+  /* display: none; */
+  list-style: none;
+  padding-left: 20px;
+  /* Adjust as needed */
+}
+
+.sidebar-menu .sidebar-submenu {
+  display: block;
+}
+
+/* Optional: Add transition for smooth toggle */
+.sidebar-menu .dropdown .sidebar-submenu {
+  transition: max-height 0.3s linear;
+  overflow: hidden;
+  max-height: 0px;
+}
+
+/* .sidebar-menu .dropdown.open .sidebar-submenu {
+  max-height: 1000px;
+} */
+
+.sidebar-menu li > a > i {
+  margin-inline-end: 0;
+}
+
+.mr-10 {
+  margin-right: 10px !important;
+}
+
+.sidebar-menu .sidebar-submenu li a {
+  gap: 12px;
+}
+
+.sidebar-menu .sidebar-submenu li > .active-page {
+  background-color: var(--button-secondary);
+  color: var(--text-primary-light);
+}
+
+.sidebar-menu li > a.active-page:hover {
+  color: var(--text-primary-light);
+}
+.me-8 {
+  margin-right: 8px;
+}
+
+.gap-10 {
+  display: flex;
+  gap: 8px;
+}
+
+.w-33 {
+  width: 33.33%;
+}
+
+.overlay::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  inset-inline-start: 0;
+  width: 0;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.65;
+  transition: all 0.3s;
+  z-index: 2;
+}
+
+.overlay.active::after {
+  width: 100%;
+}

@@ -13,9 +13,8 @@ const CustomerLayer = () => {
     const [company_name, setCompanyName] = useState("");
     const [email, setEmail] = useState("");
     const [phone_number, setPhoneNumber] = useState("");
-    const [billing_cycle, setbilling_cycle] = useState("");
+    const [billing_cycle, setbilling_cycle] = useState("weekly");
     const [paymentTerms, setPaymentTerms] = useState("");
-    const [tenant_id, setTenantId] = useState("");
     const [title, setTitle] = useState("Mr");
     const [first_name, setFirstName] = useState("");
     const [middle_name, setMiddleName] = useState("");
@@ -41,7 +40,7 @@ const CustomerLayer = () => {
         current_city: "",
         current_zip_code: "",
     });
-    const [shippingAddress, setShippingAddress] = useState({
+    const [shipping_address, setshipping_address] = useState({
         current_street_address_1: "",
         current_street_address_2: "",
         current_country: "",
@@ -58,6 +57,7 @@ const CustomerLayer = () => {
         const table = $("#dataTable").DataTable({
             pageLength: 10,
             destroy: true,
+            ordering: false,
         });
 
         return () => {
@@ -66,18 +66,24 @@ const CustomerLayer = () => {
     }, []);
 
     const getCustomers = async () => {
-        const res = await apiGet('customers');
-        console.log(res);
-        setCustomers(res?.data);
-        if ($.fn.DataTable.isDataTable("#dataTable")) {
-            $("#dataTable").DataTable().destroy();
+        try {
+            const res = await apiGet('customers');
+            console.log(res);
+            setCustomers(res?.data);
 
+            if ($.fn.DataTable.isDataTable("#dataTable")) {
+                $("#dataTable").DataTable().destroy();
+            }
+
+            setTimeout(() => {
+                $("#dataTable").DataTable({
+                    pageLength: 10,
+                    ordering: false,
+                });
+            }, 0);
+        } catch (error) {
+            console.error("Error fetching customers:", error);
         }
-        setTimeout(() => {
-            $("#dataTable").DataTable({
-                pageLength: 10,
-            });
-        }, 0);
     };
 
 
@@ -90,7 +96,6 @@ const CustomerLayer = () => {
             phone_number,
             billing_cycle,
             paymentTerms,
-            tenant_id,
             title,
             first_name,
             middle_name,
@@ -109,7 +114,7 @@ const CustomerLayer = () => {
             contact_person_work_phone,
             contact_person_mobile_no,
             billing_address,
-            shippingAddress
+            shipping_address
         };
         console.log(data);
         const res = await apiPost('customers/add', data);
@@ -120,7 +125,6 @@ const CustomerLayer = () => {
             setLoading(false);
         } else {
             setLoading(false);
-            toast.error("Something went wrong");
         }
     }
 
@@ -269,48 +273,48 @@ const CustomerLayer = () => {
                                                         <div className="col-md-4">
                                                             <label className="form-label">Street Address 1</label>
                                                             <input type="text" className="form-control" placeholder=""
-                                                                value={shippingAddress.current_street_address_1} onChange={(e) => setShippingAddress({
-                                                                    ...shippingAddress,
+                                                                value={shipping_address.current_street_address_1} onChange={(e) => setshipping_address({
+                                                                    ...shipping_address,
                                                                     current_street_address_1: e.target.value
                                                                 })} />
                                                         </div>
                                                         <div className="col-md-4">
                                                             <label className="form-label">Street Address 2</label>
                                                             <input type="text" className="form-control" placeholder=""
-                                                                value={shippingAddress.current_street_address_2} onChange={(e) => setShippingAddress({
-                                                                    ...shippingAddress,
+                                                                value={shipping_address.current_street_address_2} onChange={(e) => setshipping_address({
+                                                                    ...shipping_address,
                                                                     current_street_address_2: e.target.value
                                                                 })} />
                                                         </div>
                                                         <div className="col-md-4">
                                                             <label className="form-label">Country</label>
                                                             <input type="text" className="form-control" placeholder=""
-                                                                value={shippingAddress.current_country} onChange={(e) => setShippingAddress({
-                                                                    ...shippingAddress,
+                                                                value={shipping_address.current_country} onChange={(e) => setshipping_address({
+                                                                    ...shipping_address,
                                                                     current_country: e.target.value
                                                                 })} />
                                                         </div>
                                                         <div className="col-md-4">
                                                             <label className="form-label">City</label>
                                                             <input type="text" className="form-control" placeholder=""
-                                                                value={shippingAddress.current_city} onChange={(e) => setShippingAddress({
-                                                                    ...shippingAddress,
+                                                                value={shipping_address.current_city} onChange={(e) => setshipping_address({
+                                                                    ...shipping_address,
                                                                     current_city: e.target.value
                                                                 })} />
                                                         </div>
                                                         <div className="col-md-4">
                                                             <label className="form-label">State</label>
                                                             <input type="text" className="form-control" placeholder=""
-                                                                value={shippingAddress.current_state} onChange={(e) => setShippingAddress({
-                                                                    ...shippingAddress,
+                                                                value={shipping_address.current_state} onChange={(e) => setshipping_address({
+                                                                    ...shipping_address,
                                                                     current_state: e.target.value
                                                                 })} />
                                                         </div>
                                                         <div className="col-md-4">
                                                             <label className="form-label">Zip Code</label>
                                                             <input type="text" className="form-control" placeholder=""
-                                                                value={shippingAddress.current_zip_code} onChange={(e) => setShippingAddress({
-                                                                    ...shippingAddress,
+                                                                value={shipping_address.current_zip_code} onChange={(e) => setshipping_address({
+                                                                    ...shipping_address,
                                                                     current_zip_code: e.target.value
                                                                 })} />
                                                         </div>
@@ -444,7 +448,7 @@ const CustomerLayer = () => {
                                 <tr key={index}>
                                     <td>
                                         <div className="d-flex align-items-center">
-                                            <span className="text-secondary-light fw-semibold flex-grow-1">
+                                            <span className="text-primary-600 fw-semibold flex-grow-1">
                                                 {customer?.customer_name}
                                             </span>
                                         </div>

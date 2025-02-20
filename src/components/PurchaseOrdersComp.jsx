@@ -8,6 +8,7 @@ const PurchaseOrderLayer = () => {
     useEffect(() => {
         const table = $('#dataTable').DataTable({
             pageLength: 10,
+            ordering: false,
         });
         return () => {
             table.destroy(true);

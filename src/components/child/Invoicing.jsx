@@ -6,7 +6,6 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 const InvoicingCard = () => {
     return (
         <>
-
             <div className="col-xxl-6 col-lg-6 col-sm-12">
                 <div className="card h-100">
                     <div className="card-body p-24">
