@@ -216,7 +216,7 @@ const MasterLayout = ({ children }) => {
                   </NavLink>
                 </li>
                 <li> */}
-                  <NavLink
+                  {/* <NavLink
                     to='/projects'
                     className={(navData) =>
                       navData.isActive ? "active-page" : ""
@@ -224,7 +224,7 @@ const MasterLayout = ({ children }) => {
                   >
                     <i className='ri-circle-fill circle-icon text-primary-100 w-auto' />{" "}
                     Projects
-                  </NavLink>
+                  </NavLink> */}
                 </li>
               </ul>
             </li>
@@ -279,7 +279,7 @@ const MasterLayout = ({ children }) => {
                 <span>Time Tracking</span>
               </Link>
               <ul className='sidebar-submenu'>
-                <li>
+                {/* <li>
                   <NavLink
                     to='/timesheet'
                     className={(navData) =>
@@ -289,7 +289,7 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
                     Tasks
                   </NavLink>
-                </li>
+                </li> */}
                 <li>
                   <NavLink
                     to='/timesheet'
@@ -301,7 +301,7 @@ const MasterLayout = ({ children }) => {
                     Timesheet
                   </NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink
                     to='/timesheet'
                     className={(navData) =>
@@ -311,7 +311,7 @@ const MasterLayout = ({ children }) => {
                     <i className='ri-circle-fill circle-icon text-danger-100 w-auto' />{" "}
                     Projects
                   </NavLink>
-                </li>
+                </li> */}
               </ul>
             </li>
 

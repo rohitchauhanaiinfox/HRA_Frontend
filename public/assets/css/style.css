@@ -15726,3 +15726,7 @@ td.fc-header-center {
   border-left: 1px solid #dee2e6;
   /* Bootstrap's default border color */
 }
+
+.form-left {
+  text-align: left !important;
+}

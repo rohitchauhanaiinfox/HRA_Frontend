@@ -20,18 +20,13 @@ const HomePage = () => {
         try {
             const res = await apiGet('customers');
             console.log(res);
-            setCustomers(res?.data);
-
-            setTimeout(() => {
-                setLoading(false);
-            }, 1000);
-
+            setCustomers((res?.data ?? []).slice(0, 5));
+            setTimeout(() => setLoading(false), 1000);
         } catch (error) {
             console.error("Error fetching customers:", error);
             setLoading(false);
         }
     };
-
 
 
     useEffect(() => {

@@ -9,7 +9,7 @@ const CustomersCards = ({ customers }) => {
         <>
             <div className="col-xxl-6 col-lg-6">
                 <div className="card h-100">
-                    <div className="card-body p-24">
+                    <div className="card-body p-15">
                         <div className="d-flex align-items-center flex-wrap gap-2 justify-content-between mb-20">
                             <h6 className="mb-2 fw-bold text-lg mb-0">Customers</h6>
                             <Link
@@ -31,7 +31,6 @@ const CustomersCards = ({ customers }) => {
                                         <th scope="col">Company Name</th>
                                         <th scope="col">Email</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -50,9 +49,6 @@ const CustomersCards = ({ customers }) => {
                                                 <span className={`bg-${customer?.status === '1' ? 'success-focus' : 'danger-focus'} text-${customer?.status === '1' ? 'success-main' : 'danger-main'} px-24 py-4 rounded-pill fw-medium text-sm`}>
                                                     {customer?.status == "1" ? "Active" : "Inactive"}
                                                 </span>
-                                            </td>
-                                            <td className="text-center">
-                                                <button className="btn btn-primary-600 btn-sm">Edit</button>
                                             </td>
                                         </tr>
                                     ))}

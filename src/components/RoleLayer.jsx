@@ -5,7 +5,7 @@ import { RiseLoader } from "react-spinners";
 import { apiGet, apiPost } from "../services/client";
 import { toast, ToastContainer } from 'react-toastify';
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import { Modal } from 'bootstrap';
 
 const RoleLayer = () => {
     const [data, setData] = useState({
@@ -145,10 +145,8 @@ const RoleLayer = () => {
                     fetchPermissions(adminRole.id);
                 }
             }
+            setLoading(false);
 
-            setTimeout(() => {
-                setLoading(false);
-            }, 1000);
 
         } catch (error) {
             console.error("Error fetching roles:", error);
@@ -201,7 +199,7 @@ const RoleLayer = () => {
         }
     };
 
-    const updateRole = async (id) => {
+    const updateRole = async (id, modalId) => {
         setButtonLoading(true);
         try {
             const data = {
@@ -212,6 +210,18 @@ const RoleLayer = () => {
             const res = await apiPost(`users/api/roles/${id}/edit`, data);
             if (res?.data?.status == true) {
                 toast.success(res?.data?.message);
+                const modalElement = document.getElementById(modalId);
+                if (modalElement) {
+                    const modalInstance = Modal.getInstance(modalElement);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                }
+                setTimeout(() => {
+                    document.querySelectorAll('.modal-backdrop').forEach((el) => el.remove());
+                    document.body.classList.remove('modal-open');
+                    document.body.style.overflow = "";
+                }, 300);
                 await getAllRoles();
                 setButtonLoading(false);
             } else {
@@ -514,7 +524,7 @@ const RoleLayer = () => {
                                                                                         <button type="button" className="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8" data-bs-dismiss="modal">Cancel</button>
                                                                                         <button className="btn btn-primary-600 text-md px-56 py-11 radius-8"
                                                                                             disabled={buttonLoading}
-                                                                                            onClick={() => updateRole(role?.id)}
+                                                                                            onClick={() => updateRole(role?.id, `addCustomer${index}`)}
                                                                                         >
                                                                                             Submit
                                                                                         </button>

@@ -18,6 +18,7 @@ import Company from "./pages/Company";
 import AddEmployee from "./pages/AddEmployee";
 import Attendence from "./pages/Attendence";
 import Projects from "./pages/Projects";
+import EditEmployee from "./pages/EditEmployee";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route exact path='/add-employee' element={<Protected_routes Component={AddEmployee} />} />
         <Route exact path='/attendence' element={<Protected_routes Component={Attendence} />} />
         <Route exact path='/projects' element={<Protected_routes Component={Projects} />} />
+        <Route exact path='/edit-employee' element={<Protected_routes Component={EditEmployee} />} />
       </Routes>
     </BrowserRouter>
   );
