@@ -238,63 +238,61 @@ const MastersLayer = () => {
                                                                                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                             </div>
                                                                             <div className="modal-body">
-                                                                                <form>
-                                                                                    <div className="col-md-12">
-                                                                                        <div className="card">
-                                                                                            <div className="card-body">
-                                                                                                <div className="row gy-3 mb-50">
-                                                                                                    <div className="col-lg-12">
-                                                                                                        <form>
-                                                                                                            <div className="col-md-12">
+                                                                                <div className="col-md-12">
+                                                                                    <div className="card">
+                                                                                        <div className="card-body">
+                                                                                            <div className="row gy-3 mb-50">
+                                                                                                <div className="col-lg-12">
+                                                                                                    <form>
+                                                                                                        <div className="col-md-12">
 
-                                                                                                                <div className="row gy-3 mb-10">
-                                                                                                                    <div className="col-md-3">
-                                                                                                                        <label className="form-label">Role</label>
-                                                                                                                        <input
-                                                                                                                            type="text"
+                                                                                                            <div className="row gy-3 mb-10">
+                                                                                                                <div className="col-md-3">
+                                                                                                                    <label className="form-label">Role</label>
+                                                                                                                    <input
+                                                                                                                        type="text"
+                                                                                                                        className="form-control"
+                                                                                                                        placeholder=""
+                                                                                                                        value={selectedRole.jobRoleName}
+                                                                                                                        onChange={(e) => setSelectedRole({ ...selectedRole, jobRoleName: e.target.value })}
+                                                                                                                    />
+
+                                                                                                                </div>
+                                                                                                                <div className="col-md-3">
+                                                                                                                    <label className="form-label">Status</label>
+                                                                                                                    <select
+                                                                                                                        className="form-control"
+                                                                                                                        value={selectedRole.title}
+                                                                                                                        onChange={(e) => setSelectedRole({ ...selectedRole, title: e.target.value })}
+                                                                                                                    >
+                                                                                                                        <option value="Active">Active</option>
+                                                                                                                        <option value="Inactive">Inactive</option>
+                                                                                                                    </select>
+                                                                                                                </div>
+                                                                                                                <div className="row mt-40">
+                                                                                                                    <div className="col-12">
+                                                                                                                        <label className="form-label">Comment</label>
+                                                                                                                        <textarea
                                                                                                                             className="form-control"
+                                                                                                                            rows="3"
                                                                                                                             placeholder=""
-                                                                                                                            value={selectedRole.jobRoleName}
-                                                                                                                            onChange={(e) => setSelectedRole({ ...selectedRole, jobRoleName: e.target.value })}
-                                                                                                                        />
-
-                                                                                                                    </div>
-                                                                                                                    <div className="col-md-3">
-                                                                                                                        <label className="form-label">Status</label>
-                                                                                                                        <select
-                                                                                                                            className="form-control"
-                                                                                                                            value={selectedRole.title}
-                                                                                                                            onChange={(e) => setSelectedRole({ ...selectedRole, title: e.target.value })}
-                                                                                                                        >
-                                                                                                                            <option value="Active">Active</option>
-                                                                                                                            <option value="Inactive">Inactive</option>
-                                                                                                                        </select>
-                                                                                                                    </div>
-                                                                                                                    <div className="row mt-40">
-                                                                                                                        <div className="col-12">
-                                                                                                                            <label className="form-label">Comment</label>
-                                                                                                                            <textarea
-                                                                                                                                className="form-control"
-                                                                                                                                rows="3"
-                                                                                                                                placeholder=""
-                                                                                                                                value={selectedRole.notes}
-                                                                                                                                onChange={(e) => setSelectedRole({ ...selectedRole, notes: e.target.value })}
-                                                                                                                            ></textarea>
-                                                                                                                        </div>
+                                                                                                                            value={selectedRole.notes}
+                                                                                                                            onChange={(e) => setSelectedRole({ ...selectedRole, notes: e.target.value })}
+                                                                                                                        ></textarea>
                                                                                                                     </div>
                                                                                                                 </div>
-
                                                                                                             </div>
 
+                                                                                                        </div>
 
-                                                                                                        </form>
 
-                                                                                                    </div>
+                                                                                                    </form>
+
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
-                                                                                </form>
+                                                                                </div>
                                                                             </div>
                                                                             <div className="modal-footer">
                                                                                 <button type="button" className="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8" data-bs-dismiss="modal">Cancel</button>

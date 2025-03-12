@@ -72,6 +72,7 @@ const CustomerLayer = () => {
         try {
             const res = await apiGet('customers');
             console.log(res);
+            localStorage.setItem("customers", JSON.stringify(res.data));
             setCustomers(res?.data);
 
             if ($.fn.DataTable.isDataTable("#dataTable")) {
@@ -154,14 +155,14 @@ const CustomerLayer = () => {
                             <div className="d-flex align-items-center justify-content-between ">
                                 <h3 className="text-lg font-semibold text-primary-600 mb-2">Customers</h3>
                                 <button type="submit" className="btn btn-primary-600" data-bs-toggle="modal" data-bs-target="#addcustomer">Add Customer</button>
-                                <div class="modal fade" id="addcustomer" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Add Customer</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div className="modal fade" id="addcustomer" data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                    <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h1 className="modal-title fs-5" id="staticBackdropLabel">Add Customer</h1>
+                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <div class="modal-body">
+                                            <div className="modal-body">
                                                 <form>
                                                     <div className="col-md-12">
                                                         <div className="card">
@@ -419,8 +420,8 @@ const CustomerLayer = () => {
                                                     </div>
                                                 </form>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8" data-bs-dismiss="modal">Cancel</button>
+                                            <div className="modal-footer">
+                                                <button type="button" className="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8" data-bs-dismiss="modal">Cancel</button>
                                                 {buttonLoading ? (
                                                     <button
                                                         className="btn btn-primary-600 text-md px-56 py-11 radius-8"

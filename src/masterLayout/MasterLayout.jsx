@@ -6,9 +6,14 @@ import ThemeToggleButton from "../helper/ThemeToggleButton";
 const MasterLayout = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
+  const [role, setRole] = useState('');
   const location = useLocation(); // Hook to get the current route
 
   useEffect(() => {
+    const roles = localStorage.getItem("role");
+    if (roles) {
+      setRole(roles);
+    }
     const handleDropdownClick = (event) => {
       event.preventDefault();
       const clickedLink = event.currentTarget;
@@ -132,145 +137,72 @@ const MasterLayout = ({ children }) => {
               </Link>
             </li>
             {/* Invoice Dropdown */}
-            <li className='dropdown'>
-              <Link to='#'>
-                <Icon icon='mingcute:storage-line' className='menu-icon' />
-                <span>Admin</span>
-              </Link>
-              <ul className='sidebar-submenu'>
-                <li>
-                  <NavLink
-                    to='/employee'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
-                    All Employees
-                  </NavLink>
-                  {/* </li>
-                <li>
-                  <NavLink
-                    to='/attendence'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-danger w-auto' />{" "}
-                    Attendence
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/employee'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary w-auto' />{" "}
-                    Department
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/employee'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary-500 w-auto' />{" "}
-                    Designation
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/employee'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary-400 w-auto' />{" "}
-                    Duty Roster
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/employee'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary-300 w-auto' />{" "}
-                    Leaves
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/employee'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary-200 w-auto' />{" "}
-                    Holidays
-                  </NavLink>
-                </li>
-                <li> */}
-                  {/* <NavLink
-                    to='/projects'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary-100 w-auto' />{" "}
-                    Projects
-                  </NavLink> */}
-                </li>
-              </ul>
-            </li>
+            {localStorage.getItem('role') === "admin" && (
+              <li className='dropdown'>
+                <Link to='#'>
+                  <Icon icon='mingcute:storage-line' className='menu-icon' />
+                  <span>Admin</span>
+                </Link>
+                <ul className='sidebar-submenu'>
+                  <li>
+                    <NavLink
+                      to='/employee'
+                      className={(navData) =>
+                        navData.isActive ? "active-page" : ""
+                      }
+                    >
+                      <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
+                      All Employees
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+            )}
 
             {/* Sales Dropdown */}
-            <li className='dropdown'>
-              <Link to='#'>
-                <Icon icon='hugeicons:invoice-03' className='menu-icon' />
-                <span>Sales</span>
-              </Link>
-              <ul className='sidebar-submenu'>
-                <li>
-                  <NavLink
-                    to='/customer'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
-                    Customer
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/purchaseorder'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
-                    PO
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/invoicing'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
-                    Invoicing
-                  </NavLink>
-                </li>
-              </ul>
-            </li>
+            {localStorage.getItem('role') === "admin" && (
+              <li className='dropdown'>
+                <Link to='#'>
+                  <Icon icon='hugeicons:invoice-03' className='menu-icon' />
+                  <span>Sales</span>
+                </Link>
+                <ul className='sidebar-submenu'>
+                  <li>
+                    <NavLink
+                      to='/customer'
+                      className={(navData) =>
+                        navData.isActive ? "active-page" : ""
+                      }
+                    >
+                      <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
+                      Customer
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/purchaseorder'
+                      className={(navData) =>
+                        navData.isActive ? "active-page" : ""
+                      }
+                    >
+                      <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
+                      PO
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/invoicing'
+                      className={(navData) =>
+                        navData.isActive ? "active-page" : ""
+                      }
+                    >
+                      <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
+                      Invoicing
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+            )}
 
             {/* Time Tracking Dropdown */}
             <li className='dropdown'>
@@ -316,47 +248,50 @@ const MasterLayout = ({ children }) => {
             </li>
 
             {/* Settings Dropdown */}
-            <li className='dropdown'>
-              <Link to='#'>
-                <Icon icon='icon-park-outline:setting-two' className='menu-icon' />
-                <span>Settings</span>
-              </Link>
-              <ul className='sidebar-submenu'>
-                <li>
-                  <NavLink
-                    to='/company'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
-                    Company
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/masters'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
-                    Masters
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to='/roles-privileges'
-                    className={(navData) =>
-                      navData.isActive ? "active-page" : ""
-                    }
-                  >
-                    <i className='ri-circle-fill circle-icon text-danger-main w-auto' />{" "}
-                    Roles & Privileges
-                  </NavLink>
-                </li>
-              </ul>
-            </li>
+            {localStorage.getItem('role') === "admin" && (
+              <li className='dropdown'>
+                <Link to='#'>
+                  <Icon icon='icon-park-outline:setting-two' className='menu-icon' />
+                  <span>Settings</span>
+                </Link>
+                <ul className='sidebar-submenu'>
+                  <li>
+                    <NavLink
+                      to='/company'
+                      className={(navData) =>
+                        navData.isActive ? "active-page" : ""
+                      }
+                    >
+                      <i className='ri-circle-fill circle-icon text-primary-600 w-auto' />{" "}
+                      Company
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/masters'
+                      className={(navData) =>
+                        navData.isActive ? "active-page" : ""
+                      }
+                    >
+                      <i className='ri-circle-fill circle-icon text-warning-main w-auto' />{" "}
+                      Masters
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      to='/roles-privileges'
+                      className={(navData) =>
+                        navData.isActive ? "active-page" : ""
+                      }
+                    >
+                      <i className='ri-circle-fill circle-icon text-danger-main w-auto' />{" "}
+                      Roles & Privileges
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+            )}
+
           </ul>
         </div>
       </aside>
@@ -566,7 +501,7 @@ const MasterLayout = ({ children }) => {
                           John Doe
                         </h6>
                         <span className='text-secondary-light fw-medium text-sm'>
-                          Admin
+                          {localStorage.getItem('role')}
                         </span>
                       </div>
                       <button type='button' className='hover-text-danger'>
@@ -577,7 +512,7 @@ const MasterLayout = ({ children }) => {
                       </button>
                     </div>
                     <ul className='to-top-list'>
-                      <li>
+                      {/* <li>
                         <Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-primary d-flex align-items-center gap-3'
                           to='/profile'
@@ -588,7 +523,7 @@ const MasterLayout = ({ children }) => {
                           />{" "}
                           My Profile
                         </Link>
-                      </li>
+                      </li> */}
                       <li>
                         <Link
                           className='dropdown-item text-black px-0 py-8 hover-bg-transparent hover-text-danger d-flex align-items-center gap-3'

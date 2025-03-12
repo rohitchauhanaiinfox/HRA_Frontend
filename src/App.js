@@ -19,6 +19,8 @@ import AddEmployee from "./pages/AddEmployee";
 import Attendence from "./pages/Attendence";
 import Projects from "./pages/Projects";
 import EditEmployee from "./pages/EditEmployee";
+import AddInvoice from "./components/AddInvoice";
+import AddTimeSheet from "./components/AddTimeSheet";
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
         <Route exact path='/attendence' element={<Protected_routes Component={Attendence} />} />
         <Route exact path='/projects' element={<Protected_routes Component={Projects} />} />
         <Route exact path='/edit-employee' element={<Protected_routes Component={EditEmployee} />} />
+        <Route exact path='/addInvoice' element={<Protected_routes Component={AddInvoice} />} />
+        <Route exact path='/addTimesheet' element={<Protected_routes Component={AddTimeSheet} />} />
       </Routes>
     </BrowserRouter>
   );

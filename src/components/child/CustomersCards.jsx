@@ -34,8 +34,8 @@ const CustomersCards = ({ customers }) => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {customers?.map((customer) => (
-                                        <tr key={customer.id}>
+                                    {customers?.map((customer, index) => (
+                                        <tr key={index}>
                                             <td>
                                                 <div className="d-flex align-items-center">
                                                     <span className="text-secondary-light fw-semibold flex-grow-1">

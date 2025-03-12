@@ -1,22 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MasterLayout from "../masterLayout/MasterLayout";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Icon } from '@iconify/react/dist/iconify.js'
-import MastersLayer from "../components/MastersLayers";
-import CompanyLayer from "../components/CompanyLayer";
 import { Country, State, City } from 'country-state-city';
 import Select from 'react-select';
-import { apiGet, apiPost } from '../services/client';
+import { apiPost } from '../services/client';
 import { toast, ToastContainer } from 'react-toastify';
 import Calendar from 'react-calendar';
 import "react-calendar/dist/Calendar.css";
 
 const AddEmployee = () => {
     const [showCalendar, setShowCalendar] = useState(false);
+    const [showDateCalendar, setShowDateCalendar] = useState(false);
     const navigate = useNavigate();
     const status = ['Active', 'Inactive'];
     const [loading, setLoading] = useState(false);
-    const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [first_name, setFirstName] = useState("");
@@ -27,13 +25,16 @@ const AddEmployee = () => {
     const [dob, setDob] = useState("");
     const [userStatus, setUserStatus] = useState('Active');
     const [reportingManager, setReportingManager] = useState(1);
-    const [permission, setPermission] = useState('');
     const [jobRole, setJobRole] = useState('');
     const [joiningDate, setJoiningDate] = useState("");
     const [currentStep, setCurrentStep] = useState(1);
     const [selectedCountry, setSelectedCountry] = useState(null);
     const [selectedState, setSelectedState] = useState(null);
     const [selectedCity, setSelectedCity] = useState(null);
+    const [hourly_rate, setHourlyRate] = useState(null);
+    const [salary_mode, setSalaryMode] = useState('');
+    const [employees, setEmployee] = useState([]);
+    const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
     const [personalDetail, setPersonalDetail] = useState({
         ssn_number: "",
         home_phone: "",
@@ -149,7 +150,14 @@ const AddEmployee = () => {
             console.log("This is else part")
         }
     };
+    useEffect(() => {
 
+        const storedEmployees = JSON.parse(localStorage.getItem("employee"));
+        if (storedEmployees) {
+            setEmployee(storedEmployees);
+        }
+
+    }, []);
     const handleDeleteExp = (index) => {
         const updatedList = experienceList.filter((_, i) => i !== index);
         setExperienceList(updatedList);
@@ -176,9 +184,11 @@ const AddEmployee = () => {
             password,
             phone_number: phoneNumber,
             gender,
+            hourly_rate,
+            salary_mode,
             job_role: jobRole,
             dob,
-            reporting_manager: reportingManager,
+            reporting_manager: selectedEmployeeId,
             joining_date: joiningDate,
             personal_detail: personalDetail,
             bank_detail: bankDetail,
@@ -392,20 +402,22 @@ const AddEmployee = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className='col-sm-3'>
-                                            <label className='form-label'>Reporting Manager*</label>
-                                            <div className='position-relative'>
-                                                <input
-                                                    type='text'
-                                                    className='form-control wizard-required'
-                                                    required=''
-                                                    value={reportingManager}
-                                                    onChange={(e) => setReportingManager(e.target.value)}
-                                                />
-                                                <div className='wizard-form-error' />
-                                            </div>
+                                        <div className="col-md-4">
+                                            <label className="form-label">Reporting Manager*</label>
+                                            <select
+                                                className="form-control"
+                                                value={selectedEmployeeId}
+                                                onChange={(e) => setSelectedEmployeeId(e.target.value)}
+                                            >
+                                                <option value="">Select Employee</option>
+                                                {employees.map((employee, index) => (
+                                                    <option key={index} value={employee.id}>
+                                                        {employee.username}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
-                                        <div className='col-sm-3'>
+                                        {/* <div className='col-sm-3'>
                                             <label className='form-label'>Permission*</label>
                                             <div className='position-relative'>
                                                 <input
@@ -417,7 +429,7 @@ const AddEmployee = () => {
                                                 />
                                                 <div className='wizard-form-error' />
                                             </div>
-                                        </div>
+                                        </div> */}
                                         <div className='col-sm-3'>
                                             <label className='form-label'>Job Role*</label>
                                             <div className='position-relative'>
@@ -432,16 +444,53 @@ const AddEmployee = () => {
                                             </div>
                                         </div>
                                         <div className='col-sm-3'>
-                                            <label className='form-label'>Joining Date*</label>
+                                            <label className='form-label'>Hourly Rate*</label>
                                             <div className='position-relative'>
                                                 <input
                                                     type='text'
                                                     className='form-control wizard-required'
                                                     required=''
-                                                    value={joiningDate}
-                                                    onChange={(e) => setJoiningDate(e.target.value)}
+                                                    value={hourly_rate}
+                                                    onChange={(e) => setHourlyRate(e.target.value)}
                                                 />
                                                 <div className='wizard-form-error' />
+                                            </div>
+                                        </div>
+                                        <div className='col-sm-3'>
+                                            <label className='form-label'>Salary Mode*</label>
+                                            <div className='position-relative'>
+                                                <input
+                                                    type='text'
+                                                    className='form-control wizard-required'
+                                                    required=''
+                                                    value={salary_mode}
+                                                    onChange={(e) => setSalaryMode(e.target.value)}
+                                                />
+                                                <div className='wizard-form-error' />
+                                            </div>
+                                        </div>
+                                        <div className="col-sm-3">
+                                            <label className="form-label">Joining Date*</label>
+                                            <div className="position-relative">
+                                                <input
+                                                    type="text"
+                                                    className="form-control wizard-required"
+                                                    required=""
+                                                    value={joiningDate ? joiningDate.toDateString() : ""}
+                                                    onFocus={() => setShowDateCalendar(true)}
+
+                                                />
+                                                {showDateCalendar && (
+                                                    <div className="calendar-container" style={{ position: "absolute", zIndex: 1000 }}>
+                                                        <Calendar
+                                                            onChange={(date) => {
+                                                                setJoiningDate(date);
+                                                                setShowDateCalendar(false);
+                                                            }}
+                                                            value={dob}
+                                                        />
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="col-sm-3">
@@ -1152,7 +1201,6 @@ const AddEmployee = () => {
                                                                     <td>{edu.school}</td>
                                                                     <td>{edu.edu_type}</td>
                                                                     <td className="text-center">
-                                                                        <Icon icon="mingcute:pencil-line" className="menu-icon cursor-pointer" style={{ fontSize: "1.5rem" }} />
                                                                         <Icon icon="mingcute:delete-line" className="menu-icon cursor-pointer text-danger ms-2" style={{ fontSize: "1.5rem" }} onClick={() => handleDelete(index)} />
                                                                     </td>
                                                                 </tr>
@@ -1311,7 +1359,6 @@ const AddEmployee = () => {
                                                                     <td>{edu.hourly_rate}</td>
                                                                     <td>{edu.salary_mode}</td>
                                                                     <td className="text-center">
-                                                                        <Icon icon="mingcute:pencil-line" className="menu-icon cursor-pointer" style={{ fontSize: "1.5rem" }} />
                                                                         <Icon icon="mingcute:delete-line" className="menu-icon cursor-pointer text-danger ms-2" style={{ fontSize: "1.5rem" }} onClick={() => handleDeleteExp(index)} />
                                                                     </td>
                                                                 </tr>

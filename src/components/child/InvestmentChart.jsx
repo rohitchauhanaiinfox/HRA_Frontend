@@ -40,7 +40,7 @@ const Investment = () => {
                             <div className='d-flex align-items-center gap-2'>
                                 <span className='w-12-px h-12-px rounded-pill bg-primary' />
                                 <span className='text-secondary-light text-sm fw-normal'>
-                                    Sent
+                                    Approved
                                 </span>
                             </div>
                             <h6 className='text-primary-light fw-semibold mb-0 mt-4 text-lg'>
@@ -51,7 +51,7 @@ const Investment = () => {
                             <div className='d-flex align-items-center gap-2'>
                                 <span className='w-12-px h-12-px rounded-pill bg-purple' />
                                 <span className='text-secondary-light text-sm fw-normal'>
-                                    Draft
+                                    Declined
                                 </span>
                             </div>
                             <h6 className='text-primary-light fw-semibold mb-0 mt-4 text-lg'>

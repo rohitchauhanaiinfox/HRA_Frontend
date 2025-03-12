@@ -48,7 +48,7 @@ const requestWithRefresh = async (method, url, data = null) => {
         }
 
         console.error("API Request Error:", error);
-        toast.error(error?.response?.data?.error || "Error occurred");
+        toast.error(error?.response?.data?.message || "Error occurred");
         return Promise.reject(error);
     }
 };

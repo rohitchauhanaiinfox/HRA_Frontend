@@ -55,12 +55,12 @@ const SignInLayer = () => {
 
                         <div className="icon-field mb-16">
                             <span className="icon top-50 translate-middle-y">
-                                <Icon icon="mage:email" />
+                                <Icon icon="mdi:account-circle" />
                             </span>
                             <input
-                                type="email"
+                                type="text"
                                 className="form-control h-56-px bg-neutral-50 radius-12"
-                                placeholder="Email"
+                                placeholder="username"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
                                 required

@@ -15730,3 +15730,114 @@ td.fc-header-center {
 .form-left {
   text-align: left !important;
 }
+
+.over-main .dt-layout-cell.dt-layout-full {
+  overflow: scroll;
+}
+
+.sub-inner {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.row span {
+  font-size: 13px;
+  color: #158392;
+  text-transform: capitalize;
+}
+
+.row span {
+  font-size: 13px;
+  color: #158392;
+  text-transform: capitalize;
+}
+
+.amount {
+  font-weight: 700;
+  color: #000 !important;
+}
+
+.row.total {
+  font-weight: 700;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  line-height: 33px;
+  font-size: 21px !important;
+  border-top: 1px solid #087f92;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.row.total span {
+  font-size: 16px;
+}
+
+.row.total span {
+  font-size: 16px;
+}
+
+.main-col-5 {
+  border: 1px solid #087f92;
+  border-radius: 5px;
+}
+
+.my-row {
+  background-color: #f9f9f9;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.my-setting {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.seven-col {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.btn-top {
+  margin-top: 15px;
+}
+
+/* Calendar Styling */
+.fc-toolbar {
+  background-color: white;
+  padding: 10px;
+}
+
+.fc-daygrid-event {
+  background-color: #444 !important;
+  /* Dark color for events */
+  color: white !important;
+  border-radius: 5px;
+  padding: 5px;
+  font-weight: bold;
+}
+
+/* Table Styling */
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+/* Buttons */
+.btn-dark {
+  background-color: #444 !important;
+  border: none;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+.btn-outline-dark {
+  border: 1px solid #444;
+  color: #444;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  border: none;
+}

@@ -12,8 +12,8 @@ const EmployeeLayer = () => {
     const [allEmployee, setEmployee] = useState([]);
     const [loading, setLoading] = useState(false);
     const [buttonLoading, setButtonLoading] = useState(false);
-    const [new_password, setnew_password] = useState(null);
-    const [confirm_password, setconfirm_password] = useState(null);
+    const [new_password, setnew_password] = useState('');
+    const [confirm_password, setconfirm_password] = useState('');
 
     const getEmployee = async () => {
         setLoading(true);
@@ -21,12 +21,11 @@ const EmployeeLayer = () => {
             const res = await apiGet('users/emps');
             if (res.data.status == true) {
                 console.log(res.data.data);
+                localStorage.setItem("employee", JSON.stringify(res.data.data));
                 setEmployee(res.data.data);
-
                 if ($.fn.DataTable.isDataTable("#dataTable")) {
                     $("#dataTable").DataTable().destroy();
                 }
-
                 setTimeout(() => {
                     $("#dataTable").DataTable({
                         pageLength: 10,
@@ -169,14 +168,14 @@ const EmployeeLayer = () => {
                                                         <button className="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target={`#changePass${index}`}>
                                                             <Icon icon="mdi:key" width="16" height="16" />
                                                         </button>
-                                                        <div class="modal fade" id={`changePass${index}`} data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-l">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Change Password</h1>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <div className="modal fade" id={`changePass${index}`} data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-l">
+                                                                <div className="modal-content">
+                                                                    <div className="modal-header">
+                                                                        <h1 className="modal-title fs-5" id="staticBackdropLabel">Change Password</h1>
+                                                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
-                                                                    <div class="modal-body">
+                                                                    <div className="modal-body">
                                                                         <div className="col-md-12">
                                                                             <label className="form-label text-start d-block">New Password</label>
                                                                             <input
@@ -196,8 +195,8 @@ const EmployeeLayer = () => {
                                                                             />
                                                                         </div>
                                                                     </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8" data-bs-dismiss="modal">Cancel</button>
+                                                                    <div className="modal-footer">
+                                                                        <button type="button" className="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8" data-bs-dismiss="modal">Cancel</button>
                                                                         {buttonLoading ? (
                                                                             <button
                                                                                 className="btn btn-primary-600 text-md px-56 py-11 radius-8"
