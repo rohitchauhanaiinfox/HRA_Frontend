@@ -7,12 +7,17 @@ const MasterLayout = ({ children }) => {
   let [sidebarActive, seSidebarActive] = useState(false);
   let [mobileMenu, setMobileMenu] = useState(false);
   const [role, setRole] = useState('');
+  const [profile, setProfile] = useState();
   const location = useLocation(); // Hook to get the current route
 
   useEffect(() => {
     const roles = localStorage.getItem("role");
     if (roles) {
       setRole(roles);
+    }
+    const data = localStorage.getItem("user");
+    if (data) {
+      setProfile(JSON.parse(data));
     }
     const handleDropdownClick = (event) => {
       event.preventDefault();
@@ -498,7 +503,7 @@ const MasterLayout = ({ children }) => {
                     <div className='py-12 px-16 radius-8 bg-primary-50 mb-16 d-flex align-items-center justify-content-between gap-2'>
                       <div>
                         <h6 className='text-lg text-primary-light fw-semibold mb-2'>
-                          John Doe
+                          {profile?.first_name + ' ' + profile?.last_name}
                         </h6>
                         <span className='text-secondary-light fw-medium text-sm'>
                           {localStorage.getItem('role')}

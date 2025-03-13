@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const ProfileCard = () => {
     const targetDate = new Date("2025-03-28T00:00:00").getTime();
-
+    const [profile, setProfile] = useState();
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
     function calculateTimeLeft() {
@@ -19,6 +19,8 @@ const ProfileCard = () => {
     }
 
     useEffect(() => {
+        const data = localStorage.getItem('user');
+        setProfile(JSON.parse(data));
         const timer = setInterval(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
@@ -43,7 +45,7 @@ const ProfileCard = () => {
                     </div> */}
                     <div className="flex-grow-1">
                         <h4 className="mb-16 text-white">
-                            Welcome John
+                            Welcome {profile?.first_name + ' ' + profile?.last_name}
                         </h4>
 
                         <div className="d-flex align-items-center flex-wrap mt-24 gap-16">

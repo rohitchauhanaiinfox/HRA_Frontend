@@ -35,7 +35,32 @@ const AddInvoice = () => {
     const [customerNotes, setCoustomerNotes] = useState('');
     const [grandTotal, setGrandTotal] = useState('');
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
 
+    const validateForm = () => {
+        let newErrors = {};
+
+        if (!selectedCustomerId) newErrors.selectedCustomerId = "Customer is required";
+        if (!purchaseOrderId) newErrors.purchaseOrderId = "Purchase Order ID is required";
+        if (!invoiceDate) newErrors.invoiceDate = "Invoice Date is required";
+        if (!dueDate) newErrors.dueDate = "Due Date is required";
+        if (!terms) newErrors.terms = "Terms are required";
+        if (!invoiceMonth) newErrors.invoiceMonth = "Invoice Month is required";
+        if (!subject) newErrors.subject = "Subject is required";
+        if (!productService) newErrors.productService = "Product/Service is required";
+        if (!description) newErrors.description = "Description is required";
+        if (!quantity) newErrors.quantity = "Quantity is required";
+        if (!rate) newErrors.rate = "Rate is required";
+        if (!totalAmount) newErrors.totalAmount = "Total Amount is required";
+        if (!discountType) newErrors.discountType = "Discount Type is required";
+        if (!discountValue) newErrors.discountValue = "Discount Value is required";
+        if (!tax) newErrors.tax = "Tax is required";
+        if (!userTerms) newErrors.userTerms = "Terms & Conditions are required";
+        if (!customerNotes) newErrors.customerNotes = "Customer Notes are required";
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     useEffect(() => {
         const storedCustomers = JSON.parse(localStorage.getItem("customers"));
@@ -60,6 +85,10 @@ const AddInvoice = () => {
 
     const addInvoice = async () => {
         setButtonLoading(true);
+        if (!validateForm()) {
+            setButtonLoading(false);
+            return;
+        }
         try {
             const data = {
                 customer_name: selectedCustomerId,
@@ -167,14 +196,14 @@ const AddInvoice = () => {
                                             </option>
                                         ))}
                                     </select>
+                                    {errors.selectedCustomerId && <small className="text-danger">{errors.selectedCustomerId}</small>}
                                 </div>
                                 <div className="col-md-3">
                                     <label className="form-label">Purchase Order Id</label>
                                     <select
                                         className="form-control"
                                         value={purchaseOrderId}
-                                        onChange={(e) => setPurchaseOrderId(e.target.value)
-                                        }
+                                        onChange={(e) => setPurchaseOrderId(e.target.value)}
                                     >
                                         <option value="">Select Order</option>
                                         {customersOrders.map((customer, index) => (
@@ -183,18 +212,8 @@ const AddInvoice = () => {
                                             </option>
                                         ))}
                                     </select>
+                                    {errors.purchaseOrderId && <small className="text-danger">{errors.purchaseOrderId}</small>}
                                 </div>
-                                {/* <div className="col-md-3">
-                                    <label className="form-label">Invoice</label>
-                                    <input type="text" className="form-control" placeholder=""
-                                        value={invoice} onChange={(e) => setInvoice(e.target.value)}
-                                    />
-                                </div>
-                                <div className="col-md-3">
-                                    <label className="form-label">Order Number</label>
-                                    <input type="text" className="form-control" placeholder=""
-                                        value={orderNo} onChange={(e) => setOrderNo(e.target.value)} />
-                                </div> */}
                                 <div className="col-md-3 position-relative">
                                     <label className="form-label">Invoice Date</label>
                                     <input
@@ -216,6 +235,7 @@ const AddInvoice = () => {
                                             />
                                         </div>
                                     )}
+                                    {errors.invoiceDate && <small className="text-danger">{errors.invoiceDate}</small>}
                                 </div>
                                 <div className="col-md-3 position-relative">
                                     <label className="form-label">End Date</label>
@@ -238,6 +258,7 @@ const AddInvoice = () => {
                                             />
                                         </div>
                                     )}
+                                    {errors.dueDate && <small className="text-danger">{errors.dueDate}</small>}
                                 </div>
                                 <div className="col-md-3">
                                     <label className="form-label">Terms</label>
@@ -249,6 +270,7 @@ const AddInvoice = () => {
                                         <option value="due_on_receipt">Due on Receipt</option>
                                         <option value="completed">Completed</option>
                                     </select>
+                                    {errors.terms && <small className="text-danger">{errors.terms}</small>}
                                 </div>
                                 <div className="col-md-3">
                                     <label className="form-label">Invoice Month</label>
@@ -270,12 +292,14 @@ const AddInvoice = () => {
                                         <option value="November">November</option>
                                         <option value="December">December</option>
                                     </select>
+                                    {errors.invoiceMonth && <small className="text-danger">{errors.invoiceMonth}</small>}
                                 </div>
                                 <div className="col-md-6">
                                     <label className="form-label">Subject</label>
                                     <input type="text" readOnly className="form-control" placeholder=""
                                         value={subject} onChange={(e) => setSubject(e.target.value)}
                                     />
+                                    {errors.subject && <small className="text-danger">{errors.subject}</small>}
                                 </div>
                             </div>
                             <h6 className="mb-0 fw-bold text-lg m-0 text-primary-600 border-bottom border-primary-600 pb-2 w-100">
@@ -287,18 +311,21 @@ const AddInvoice = () => {
                                     <input type="text" className="form-control" placeholder=""
                                         value={productService} onChange={(e) => setProductService(e.target.value)}
                                     />
+                                    {errors.productService && <small className="text-danger">{errors.productService}</small>}
                                 </div>
                                 <div className="col-md-2 mt-15">
                                     <label className="form-label">Description</label>
                                     <input type="text" className="form-control" placeholder=""
                                         value={description} onChange={(e) => setDescription(e.target.value)}
                                     />
+                                    {errors.description && <small className="text-danger">{errors.description}</small>}
                                 </div>
                                 <div className="col-md-2 mt-15">
                                     <label className="form-label">Quantity</label>
                                     <input type="text" className="form-control" placeholder=""
                                         value={quantity} onChange={(e) => setQuantity(e.target.value)}
                                     />
+                                    {errors.quantity && <small className="text-danger">{errors.quantity}</small>}
                                 </div>
                                 <div className="col-md-2 mt-15">
                                     <label className="form-label">Rate</label>
@@ -314,12 +341,14 @@ const AddInvoice = () => {
                                             calculateGrandTotal();
                                         }}
                                     />
+                                    {errors.rate && <small className="text-danger">{errors.rate}</small>}
                                 </div>
                                 <div className="col-md-2 mt-15">
                                     <label className="form-label">Total Amount</label>
                                     <input type="text" className="form-control" placeholder=""
                                         value={totalAmount} onChange={(e) => setTotalAmount(e.target.value)}
                                     />
+                                    {errors.totalAmount && <small className="text-danger">{errors.totalAmount}</small>}
                                 </div>
                             </div>
                             <h6 className="mb-0 fw-bold text-lg mt-20 text-primary-600 border-bottom border-primary-600 pb-2 w-100">
@@ -327,7 +356,7 @@ const AddInvoice = () => {
                             </h6>
                             <div className="row gy-3 mt-10 ">
                                 <div className="col-lg-7 seven-col">
-                                    <div className="col-md-4 mt-15">
+                                    <div className="col-md-3 mt-15">
                                         <label className="form-label">Discount Type</label>
                                         <select
                                             className="form-control"
@@ -341,6 +370,7 @@ const AddInvoice = () => {
                                             <option value="flat">Flat</option>
                                             <option value="percentage">Percentage</option>
                                         </select>
+                                        {errors.discountType && <small className="text-danger">{errors.discountType}</small>}
                                     </div>
                                     <div className="col-md-3 mt-15">
                                         <label className="form-label">Discount Value</label>
@@ -350,6 +380,7 @@ const AddInvoice = () => {
                                                 calculateGrandTotal();
                                             }}
                                         />
+                                        {errors.discountValue && <small className="text-danger">{errors.discountValue}</small>}
                                     </div>
                                     <div className="col-md-3 mt-15">
                                         <label className="form-label">Tax</label>
@@ -359,7 +390,6 @@ const AddInvoice = () => {
                                             onChange={(e) => {
                                                 setTax(e.target.value);
                                                 calculateGrandTotal();
-
                                             }}
                                         >
                                             <option value="">Select Tax</option>
@@ -367,18 +397,21 @@ const AddInvoice = () => {
                                             <option value="10">10%</option>
                                             <option value="20">20%</option>
                                         </select>
+                                        {errors.tax && <small className="text-danger">{errors.tax}</small>}
                                     </div>
                                     <div className="col-md-3 mt-15">
                                         <label className="form-label">Terms & Conditions</label>
                                         <input type="text" className="form-control" placeholder=""
                                             value={userTerms} onChange={(e) => setUserTerms(e.target.value)}
                                         />
+                                        {errors.userTerms && <small className="text-danger">{errors.userTerms}</small>}
                                     </div>
                                     <div className="col-md-3 mt-15">
                                         <label className="form-label">Customers Notes</label>
                                         <input type="text" className="form-control" placeholder=""
                                             value={customerNotes} onChange={(e) => setCoustomerNotes(e.target.value)}
                                         />
+                                        {errors.customerNotes && <small className="text-danger">{errors.customerNotes}</small>}
                                     </div>
                                 </div>
                                 <div className="col-lg-5 position-relative main-col-5">
@@ -434,9 +467,6 @@ const AddInvoice = () => {
 };
 
 export default AddInvoice;
-
-
-
 
 
 

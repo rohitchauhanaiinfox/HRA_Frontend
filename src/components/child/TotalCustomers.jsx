@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const TotalCustomer = () => {
+const TotalCustomer = ({ dashboardData }) => {
     return (
         <div className='col-xxl-6 col-lg-6 col-sm-12'>
             <div className='card'>
@@ -17,7 +17,7 @@ const TotalCustomer = () => {
                                         <span className='text-neutral-700 d-block'>
                                             Total Customers
                                         </span>
-                                        <h6 className='mb-0 mt-4'>2</h6>
+                                        <h6 className='mb-0 mt-4'>{dashboardData?.total_customers}</h6>
                                     </div>
                                 </div>
                                 <div className='col-sm-6'>
@@ -28,7 +28,7 @@ const TotalCustomer = () => {
                                         <span className='text-neutral-700 d-block'>
                                             Total Employees
                                         </span>
-                                        <h6 className='mb-0 mt-4'>4</h6>
+                                        <h6 className='mb-0 mt-4'>{dashboardData?.total_emp}</h6>
                                     </div>
                                 </div>
                                 <div className='col-sm-6'>
@@ -37,7 +37,7 @@ const TotalCustomer = () => {
                                             <i className='ri-file-list-2-fill' />
                                         </span>
                                         <span className='text-neutral-700 d-block'>Total Invoices</span>
-                                        <h6 className='mb-0 mt-4'>6</h6>
+                                        <h6 className='mb-0 mt-4'>{dashboardData?.total_invoices}</h6>
                                     </div>
                                 </div>
                                 <div className='col-sm-6'>
@@ -46,7 +46,7 @@ const TotalCustomer = () => {
                                             <i className='ri-shopping-cart-2-fill' />
                                         </span>
                                         <span className='text-neutral-700 d-block'>Total Orders</span>
-                                        <h6 className='mb-0 mt-4'>10</h6>
+                                        <h6 className='mb-0 mt-4'>{dashboardData?.total_orders}</h6>
                                     </div>
                                 </div>
                             </div>

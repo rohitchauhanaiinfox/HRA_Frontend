@@ -29,6 +29,41 @@ const PurchaseOrderLayer = () => {
     const [selectedPurchaseOrderId, setSelectedPurchaseOrderId] = useState("");
     const [selectedEmployeeId, setSelectedEmployeeId] = useState(0);
     const [assignStatus, setAssignStatus] = useState("active");
+    const [errors, setErrors] = useState({});
+    const [error, setError] = useState({});
+
+    const validate = () => {
+        let errors = {};
+        if (!selectedCustomerId) errors.selectedCustomerId = "Customer Name is required";
+        if (!selectedPurchaseOrderId) errors.selectedPurchaseOrderId = "PO Name is required";
+        if (!selectedEmployeeId) errors.selectedEmployeeId = "Employee selection is required";
+        if (!status) errors.status = "Status is required";
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const validateForm = () => {
+        let errors = {};
+        if (!po_name.trim()) errors.poName = "PO Name is required";
+        if (!selectedCustomerId) errors.selectedCustomerId = "Customer Name is required";
+        if (!hourly_rate || isNaN(hourly_rate) || hourly_rate <= 0) errors.hourlyRate = "Enter a valid hourly rate";
+        if (!start_date) errors.startDate = "Start Date is required";
+        if (!end_date) errors.endDate = "End Date is required";
+        if (start_date && end_date && new Date(end_date) < new Date(start_date)) {
+            errors.endDate = "End Date cannot be before Start Date";
+        }
+        if (!status.trim()) errors.status = "Status is required";
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            console.log("Form submitted successfully");
+
+        }
+    };
 
     useEffect(() => {
         const storedCustomers = JSON.parse(localStorage.getItem("customers"));
@@ -72,6 +107,10 @@ const PurchaseOrderLayer = () => {
 
     const addPurchaseOrder = async () => {
         setButtonLoading(true);
+        if (!validateForm()) {
+            setButtonLoading(false);
+            return;
+        }
         try {
             const data = {
                 po_name,
@@ -114,6 +153,10 @@ const PurchaseOrderLayer = () => {
 
     const addAssignOrder = async (modalId) => {
         setButtonLoading(true);
+        if (!validate()) {
+            setButtonLoading(false);
+            return;
+        }
         try {
             const data = {
                 purchase_order_id: parseInt(selectedPurchaseOrderId, 10),
@@ -226,83 +269,45 @@ const PurchaseOrderLayer = () => {
                                                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div className="modal-body">
-                                                        <form>
+                                                        <form onSubmit={handleSubmit}>
                                                             <div className="col-md-12">
                                                                 <div className="row gy-3 mb-50">
                                                                     <div className="col-md-3">
                                                                         <label className="form-label">PO Name</label>
-                                                                        <input type="text" className="form-control" placeholder=""
-                                                                            value={po_name} onChange={(e) => setPoName(e.target.value)} />
+                                                                        <input type="text" className="form-control" value={po_name} onChange={(e) => setPoName(e.target.value)} />
+                                                                        {errors.poName && <small className="text-danger">{errors.poName}</small>}
                                                                     </div>
                                                                     <div className="col-md-3">
                                                                         <label className="form-label">Customer Name</label>
-                                                                        <select
-                                                                            className="form-control"
-                                                                            value={selectedCustomerId}
-                                                                            onChange={(e) => setSelectedCustomerId(e.target.value)
-                                                                            }
-                                                                        >
+                                                                        <select className="form-control" value={selectedCustomerId} onChange={(e) => setSelectedCustomerId(e.target.value)}>
                                                                             <option value="">Select Customer</option>
                                                                             {customers.map((customer, index) => (
-                                                                                <option key={index} value={customer.customer_id}>
-                                                                                    {customer.customer_name}
-                                                                                </option>
+                                                                                <option key={index} value={customer.customer_id}>{customer.customer_name}</option>
                                                                             ))}
                                                                         </select>
+                                                                        {errors.selectedCustomerId && <small className="text-danger">{errors.selectedCustomerId}</small>}
                                                                     </div>
                                                                     <div className="col-md-3">
                                                                         <label className="form-label">Hourly Rate</label>
-                                                                        <input type="text" className="form-control" placeholder=""
-                                                                            value={hourly_rate} onChange={(e) => setHourlyRate(e.target.value)} />
+                                                                        <input type="text" className="form-control" value={hourly_rate} onChange={(e) => setHourlyRate(e.target.value)} />
+                                                                        {errors.hourlyRate && <small className="text-danger">{errors.hourlyRate}</small>}
                                                                     </div>
                                                                     <div className="col-md-3 position-relative">
                                                                         <label className="form-label">Start Date</label>
-                                                                        <input
-                                                                            type="text"
-                                                                            className="form-control"
-                                                                            placeholder="Select Start Date"
-                                                                            value={start_date}
-                                                                            readOnly
-                                                                            onClick={() => setShowCalendar(!showCalendar)}
-                                                                        />
-                                                                        {showCalendar && (
-                                                                            <div className="position-absolute bg-white shadow-lg p-2 z-index-1000">
-                                                                                <Calendar
-                                                                                    onChange={(date) => {
-                                                                                        setStartDate(formatDate(date));
-                                                                                        setShowCalendar(false);
-                                                                                    }}
-                                                                                    value={start_date}
-                                                                                />
-                                                                            </div>
-                                                                        )}
+                                                                        <input type="text" className="form-control" value={start_date} readOnly onClick={() => setShowCalendar(!showCalendar)} />
+                                                                        {errors.startDate && <small className="text-danger">{errors.startDate}</small>}
+                                                                        {showCalendar && <Calendar onChange={(date) => { setStartDate(date.toISOString().split('T')[0]); setShowCalendar(false); }} value={start_date} />}
                                                                     </div>
                                                                     <div className="col-md-3 position-relative">
                                                                         <label className="form-label">End Date</label>
-                                                                        <input
-                                                                            type="text"
-                                                                            className="form-control"
-                                                                            placeholder="Select End Date"
-                                                                            value={end_date}
-                                                                            readOnly
-                                                                            onClick={() => setShowEndCalendar(!showEndCalendar)}
-                                                                        />
-                                                                        {showEndCalendar && (
-                                                                            <div className="position-absolute bg-white shadow-lg p-2 z-index-1000">
-                                                                                <Calendar
-                                                                                    onChange={(date) => {
-                                                                                        setEndDate(formatDate(date));
-                                                                                        setShowEndCalendar(false);
-                                                                                    }}
-                                                                                    value={end_date}
-                                                                                />
-                                                                            </div>
-                                                                        )}
+                                                                        <input type="text" className="form-control" value={end_date} readOnly onClick={() => setShowEndCalendar(!showEndCalendar)} />
+                                                                        {errors.endDate && <small className="text-danger">{errors.endDate}</small>}
+                                                                        {showEndCalendar && <Calendar onChange={(date) => { setEndDate(date.toISOString().split('T')[0]); setShowEndCalendar(false); }} value={end_date} />}
                                                                     </div>
                                                                     <div className="col-md-3">
                                                                         <label className="form-label">Status</label>
-                                                                        <input type="email" className="form-control" placeholder=""
-                                                                            value={status} onChange={(e) => setStatus(e.target.value)} />
+                                                                        <input type="text" className="form-control" value={status} onChange={(e) => setStatus(e.target.value)} />
+                                                                        {errors.status && <small className="text-danger">{errors.status}</small>}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -374,7 +379,22 @@ const PurchaseOrderLayer = () => {
                                                                     })
                                                                     : 'N/A'}
                                                             </td>
-                                                            <td>{employee?.status}</td>
+                                                            <td>
+                                                                <span className={`bg-${employee?.status?.toLowerCase() === "active"
+                                                                    ? 'success-focus'
+                                                                    : employee?.status?.toLowerCase() === "pending"
+                                                                        ? 'danger-focus'
+                                                                        : 'warning-focus'
+                                                                    } text-${employee?.status?.toLowerCase() === "active"
+                                                                        ? 'success-main'
+                                                                        : employee?.status?.toLowerCase() === "pending"
+                                                                            ? 'danger-main'
+                                                                            : 'warning-main'
+                                                                    } px-24 py-4 rounded-pill fw-medium text-sm`}
+                                                                >
+                                                                    {employee?.status}
+                                                                </span>
+                                                            </td>
 
                                                         </tr>
                                                     ))}</> : <>No data Found</>
@@ -402,73 +422,48 @@ const PurchaseOrderLayer = () => {
                                                         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div className="modal-body">
-                                                        <form>
+                                                        <form onSubmit={handleSubmit}>
                                                             <div className="col-md-12">
                                                                 <div className="row gy-3 mb-50">
                                                                     <div className="col-md-4">
                                                                         <label className="form-label">Customer Name</label>
-                                                                        <select
-                                                                            className="form-control"
-                                                                            value={selectedCustomerId}
-                                                                            onChange={(e) => setSelectedCustomerId(e.target.value)}
-                                                                        >
+                                                                        <select className="form-control" value={selectedCustomerId} onChange={(e) => setSelectedCustomerId(e.target.value)}>
                                                                             <option value="">Select Customer</option>
                                                                             {customers.map((customer, index) => (
-                                                                                <option key={index} value={customer.customer_id}>
-                                                                                    {customer.customer_name}
-                                                                                </option>
+                                                                                <option key={index} value={customer.customer_id}>{customer.customer_name}</option>
                                                                             ))}
                                                                         </select>
+                                                                        {errors.selectedCustomerId && <small className="text-danger">{errors.selectedCustomerId}</small>}
                                                                     </div>
-
                                                                     <div className="col-md-4">
                                                                         <label className="form-label">PO Name</label>
-                                                                        <select
-                                                                            className="form-control"
-                                                                            value={selectedPurchaseOrderId}
-                                                                            onChange={(e) => setSelectedPurchaseOrderId(e.target.value)}
-                                                                        >
+                                                                        <select className="form-control" value={selectedPurchaseOrderId} onChange={(e) => setSelectedPurchaseOrderId(e.target.value)}>
                                                                             <option value="">Select PO</option>
                                                                             {allPurchaseOrder.map((po, index) => (
-                                                                                <option key={index} value={po.purchase_order_id}>
-                                                                                    {po.po_name}
-                                                                                </option>
+                                                                                <option key={index} value={po.purchase_order_id}>{po.po_name}</option>
                                                                             ))}
                                                                         </select>
+                                                                        {errors.selectedPurchaseOrderId && <small className="text-danger">{errors.selectedPurchaseOrderId}</small>}
                                                                     </div>
-
                                                                     <div className="col-md-4">
                                                                         <label className="form-label">Employee</label>
-                                                                        <select
-                                                                            className="form-control"
-                                                                            value={selectedEmployeeId}
-                                                                            onChange={(e) => {
-                                                                                const value = e.target.value;
-                                                                                console.log("Selected Employee ID:", value);
-                                                                                setSelectedEmployeeId(value);
-                                                                            }}
-                                                                        >
+                                                                        <select className="form-control" value={selectedEmployeeId} onChange={(e) => setSelectedEmployeeId(e.target.value)}>
                                                                             <option value="">Select Employee</option>
                                                                             {employees.map((employee, index) => (
-                                                                                <option key={index} value={employee.id}>
-                                                                                    {employee.username}
-                                                                                </option>
+                                                                                <option key={index} value={employee.id}>{employee.username}</option>
                                                                             ))}
                                                                         </select>
+                                                                        {errors.selectedEmployeeId && <small className="text-danger">{errors.selectedEmployeeId}</small>}
                                                                     </div>
-
                                                                     <div className="col-md-4">
                                                                         <label className="form-label">Status</label>
-                                                                        <select
-                                                                            className="form-control"
-                                                                            value={status}
-                                                                            onChange={(e) => setStatus(e.target.value)}
-                                                                        >
+                                                                        <select className="form-control" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                                                            <option value="">Select Status</option>
                                                                             <option value="active">Active</option>
                                                                             <option value="inactive">Inactive</option>
                                                                         </select>
+                                                                        {errors.status && <small className="text-danger">{errors.status}</small>}
                                                                     </div>
-
                                                                 </div>
                                                             </div>
                                                         </form>

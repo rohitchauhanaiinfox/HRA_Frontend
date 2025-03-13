@@ -41,6 +41,24 @@ const RoleLayer = () => {
     const [getRolesById, setRolesById] = useState(2);
     const [selectedPermissions, setSelectedPermissions] = useState([]);
     const [allowedPermission, setAllowedPermissions] = useState([]);
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        let newErrors = {};
+
+        if (!jobRoleName.trim()) {
+            newErrors.jobRoleName = "Role is required.";
+        }
+        if (!title) {
+            newErrors.title = "Status is required.";
+        }
+        if (!notes.trim()) {
+            newErrors.notes = "Comment is required.";
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
 
     const onDragEnd = (result) => {
@@ -75,6 +93,23 @@ const RoleLayer = () => {
                 },
             });
         }
+    };
+
+    const moveCard = (cardId, fromCol, toCol) => {
+        const sourceCardIds = Array.from(data.columns[fromCol].cardIds);
+        const destCardIds = Array.from(data.columns[toCol].cardIds);
+
+        sourceCardIds.splice(sourceCardIds.indexOf(cardId), 1);
+        destCardIds.push(cardId);
+
+        setData({
+            ...data,
+            columns: {
+                ...data.columns,
+                [fromCol]: { ...data.columns[fromCol], cardIds: sourceCardIds },
+                [toCol]: { ...data.columns[toCol], cardIds: destCardIds },
+            },
+        });
     };
 
     const getAllPermission = async () => {
@@ -171,7 +206,9 @@ const RoleLayer = () => {
         }
     };
 
-    const addRole = async () => {
+    const addRole = async (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
         setButtonLoading(true);
         try {
             const data = {
@@ -358,22 +395,26 @@ const RoleLayer = () => {
                             <div className="row gy-4 mt-10 height-100vh">
 
                                 <div className="col-lg-12">
-                                    <form>
+                                    <form onSubmit={addRole}>
                                         <div className="col-md-12">
                                             <div className="card">
                                                 <div className="card-body">
                                                     <div className="row gy-3 mb-10">
+                                                        {/* Role Input */}
                                                         <div className="col-md-3">
                                                             <label className="form-label">Role</label>
                                                             <input
                                                                 type="text"
                                                                 className="form-control"
-                                                                placeholder=""
                                                                 value={jobRoleName}
                                                                 onChange={(e) => setJobRoleName(e.target.value)}
                                                             />
-
+                                                            {errors.jobRoleName && (
+                                                                <small className="text-danger">{errors.jobRoleName}</small>
+                                                            )}
                                                         </div>
+
+                                                        {/* Status Dropdown */}
                                                         <div className="col-md-3">
                                                             <label className="form-label">Status</label>
                                                             <select
@@ -384,35 +425,41 @@ const RoleLayer = () => {
                                                                 <option value="Active">Active</option>
                                                                 <option value="Inactive">Inactive</option>
                                                             </select>
+                                                            {errors.title && (
+                                                                <small className="text-danger">{errors.title}</small>
+                                                            )}
                                                         </div>
+
+                                                        {/* Comment Textarea */}
                                                         <div className="row mt-40">
                                                             <div className="col-12">
                                                                 <label className="form-label">Comment</label>
                                                                 <textarea
                                                                     className="form-control"
                                                                     rows="3"
-                                                                    placeholder=""
                                                                     value={notes}
                                                                     onChange={(e) => setNotes(e.target.value)}
                                                                 ></textarea>
+                                                                {errors.notes && (
+                                                                    <small className="text-danger">{errors.notes}</small>
+                                                                )}
                                                             </div>
                                                         </div>
+
+                                                        {/* Submit Button */}
                                                         <button
                                                             type="submit"
                                                             className="btn btn-primary-600 text-sm btn-sm px-12 py-16 w-100 radius-12 mt-32"
                                                             disabled={buttonLoading}
-                                                            onClick={addRole}
                                                         >
                                                             {buttonLoading ? "Loading..." : "Save Changes"}
                                                         </button>
                                                     </div>
-
                                                 </div>
-
                                             </div>
                                         </div>
-
                                     </form>
+
 
                                 </div>
 
@@ -591,11 +638,11 @@ const RoleLayer = () => {
                                                         <div
                                                             ref={provided.innerRef}
                                                             {...provided.droppableProps}
-                                                            className="col  p-10 rounded border "
+                                                            className="col p-10 rounded border"
                                                             style={{ height: "60vh", overflowY: "auto" }}
                                                         >
                                                             <h6 className="text-primary-600 text-center pt-2 pb-2">{column.title}</h6>
-                                                            <div className="mt-3 d-flex flex-wrap gap-2">
+                                                            <div className="mt-3 d-flex flex-wrap gap-2 position-relative pr-20">
                                                                 {cards.map((card, index) => (
                                                                     <Draggable key={card.id} draggableId={card.id} index={index}>
                                                                         {(provided) => (
@@ -603,9 +650,15 @@ const RoleLayer = () => {
                                                                                 ref={provided.innerRef}
                                                                                 {...provided.draggableProps}
                                                                                 {...provided.dragHandleProps}
-                                                                                className="bg-white p-10 my-2 rounded border border-primary-600"
+                                                                                className="bg-white p-10 my-2 rounded border border-primary-600 position-relative d-flex align-items-center justify-content-between"
                                                                             >
-                                                                                {card.content}
+                                                                                <span>{card.content}</span>
+                                                                                <Icon
+                                                                                    icon={columnId === 'chosen' ? "mdi:close" : "mdi:plus"}
+                                                                                    className="text-danger cursor-pointer position-absolute"
+                                                                                    style={{ top: '0px', right: '0px', height: "15px", width: "15px" }}
+                                                                                    onClick={() => moveCard(card.id, columnId, columnId === 'chosen' ? 'available' : 'chosen')}
+                                                                                />
                                                                             </div>
                                                                         )}
                                                                     </Draggable>
@@ -615,7 +668,6 @@ const RoleLayer = () => {
                                                         </div>
                                                     )}
                                                 </Droppable>
-
                                             );
                                         })}
                                     </div>

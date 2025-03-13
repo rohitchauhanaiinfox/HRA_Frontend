@@ -14,6 +14,7 @@ const EmployeeLayer = () => {
     const [buttonLoading, setButtonLoading] = useState(false);
     const [new_password, setnew_password] = useState('');
     const [confirm_password, setconfirm_password] = useState('');
+    const [errors, setErrors] = useState({});
 
     const getEmployee = async () => {
         setLoading(true);
@@ -43,8 +44,17 @@ const EmployeeLayer = () => {
         }
     };
 
+    const validatePasswordForm = () => {
+        let newErrors = {};
+        if (!new_password.trim()) newErrors.new_password = "New Password is required";
+        if (!confirm_password.trim()) newErrors.confirm_password = "Confirm Password is required";
+        if (new_password !== confirm_password) newErrors.confirm_password = "Passwords do not match";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const changePassword = async (id, modalId) => {
+        if (!validatePasswordForm()) return;
         setButtonLoading(true);
         try {
             const data = {
@@ -184,6 +194,7 @@ const EmployeeLayer = () => {
                                                                                 value={new_password}
                                                                                 onChange={(e) => setnew_password(e.target.value)}
                                                                             />
+                                                                            {errors.new_password && <small className="text-danger text-start d-block">{errors.new_password}</small>}
                                                                         </div>
                                                                         <div className="col-md-12 mt-3 ">
                                                                             <label className="form-label  text-start d-block">Confirm Password</label>
@@ -193,6 +204,7 @@ const EmployeeLayer = () => {
                                                                                 value={confirm_password}
                                                                                 onChange={(e) => setconfirm_password(e.target.value)}
                                                                             />
+                                                                            {errors.confirm_password && <small className="text-danger text-start d-block">{errors.confirm_password}</small>}
                                                                         </div>
                                                                     </div>
                                                                     <div className="modal-footer">

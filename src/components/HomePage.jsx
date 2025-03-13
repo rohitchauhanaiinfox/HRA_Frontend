@@ -19,6 +19,10 @@ const HomePage = () => {
     const [role, setRole] = useState('');
     const [allAssignOrder, setAssignOrder] = useState([]);
     const [currentTime, setCurrentTime] = useState(new Date());
+    const [dashboardData, setDashboardData] = useState();
+    const [profile, setProfile] = useState();
+    const [pendingCount, setPendingCount] = useState(0);
+    const [approvedCount, setApprovedCount] = useState(0);
 
     const getCustomers = async () => {
         setLoading(true);
@@ -50,18 +54,60 @@ const HomePage = () => {
         }
     };
 
+    const dashboard = async () => {
+        setLoading(true);
+        try {
+            const res = await apiGet('users/dashboard_data');
+            if (res.data.status == true) {
+                console.log(res.data.data);
+                setDashboardData(res.data.data);
+                setLoading(false);
+            } else {
+                setLoading(false);
+            }
+
+        } catch (error) {
+            console.error("Error fetching employee:", error);
+            setLoading(false);
+        }
+    };
+
+    const getProfile = async () => {
+        setLoading(true);
+        try {
+            const res = await apiGet('users/profile');
+            if (res.data.status == true) {
+                console.log(res.data.data);
+                setProfile(res.data.data);
+                localStorage.setItem('user', JSON.stringify(res.data.data));
+                setLoading(false);
+            } else {
+                setLoading(false);
+            }
+
+        } catch (error) {
+            console.error("Error fetching employee:", error);
+            setLoading(false);
+        }
+    };
+
     const getInvoices = async () => {
         setLoading(true);
         try {
-            const res = await apiGet('invoices/get');
+            const res = await apiGet("invoices/get");
             if (res.data.status === true) {
-                setInvoices((res?.data?.data ?? []).slice(0, 5));
+                setInvoices((res?.data.data ?? []).slice(0, 5));
+                const invoices = res.data.data ?? [];
+                const pending = invoices.filter((inv) => inv.invoice_status === "Pending").length;
+                const approved = invoices.filter((inv) => inv.invoice_status === "Approved").length;
+
+                setPendingCount(pending);
+                setApprovedCount(approved);
             }
-            setLoading(false);
         } catch (error) {
             console.error("Error fetching invoices:", error);
-            setLoading(false);
         }
+        setLoading(false);
     };
 
     useEffect(() => {
@@ -76,7 +122,10 @@ const HomePage = () => {
             if (roles === "admin") {
                 getCustomers();
                 getInvoices();
+                dashboard();
+                getProfile();
             } else {
+                getProfile();
                 getTimeSheet();
                 getAssignOrder();
             }
@@ -114,8 +163,8 @@ const HomePage = () => {
                         <>
                             <div className="row mb-16">
                                 <ProfileCard />
-                                <TotalCustomer />
-                                <Investment />
+                                <TotalCustomer dashboardData={dashboardData} />
+                                <Investment approvedCount={approvedCount} pendingCount={pendingCount} />
                             </div>
                             <div className="row mb-16">
                                 <CustomersCards customers={customers} />
@@ -134,7 +183,7 @@ const HomePage = () => {
                                         />
                                         <div className="nft-promo-card__inner d-flex align-items-center h-100 p-4">
                                             <div className="flex-grow-1 text-white">
-                                                <h4 className="mb-16 text-white">Hello, User</h4>
+                                                <h4 className="mb-16 text-white">Hello, {profile?.first_name + ' ' + profile?.last_name}</h4>
                                                 <p>
                                                     {currentTime.toLocaleDateString("en-US", {
                                                         weekday: "long",

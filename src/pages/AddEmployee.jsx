@@ -15,6 +15,7 @@ const AddEmployee = () => {
     const navigate = useNavigate();
     const status = ['Active', 'Inactive'];
     const [loading, setLoading] = useState(false);
+    const [title, setTitle] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [first_name, setFirstName] = useState("");
@@ -303,16 +304,20 @@ const AddEmployee = () => {
                                         <div className='col-sm-3'>
                                             <label className='form-label'>Title*</label>
                                             <div className='position-relative'>
-                                                <input
-                                                    type='email'
+                                                <select
                                                     className='form-control wizard-required'
-                                                    required=''
-
-                                                />
+                                                    required
+                                                    value={title}
+                                                    onChange={(e) => setTitle(e.target.value)}
+                                                >
+                                                    <option value="">Select Title</option>
+                                                    <option value="Mr.">Mr.</option>
+                                                    <option value="Mrs.">Mrs.</option>
+                                                    <option value="Miss">Miss</option>
+                                                </select>
                                                 <div className='wizard-form-error' />
                                             </div>
                                         </div>
-
                                         <div className='col-sm-3'>
                                             <label className='form-label'>First Name*</label>
                                             <div className='position-relative'>
@@ -387,7 +392,6 @@ const AddEmployee = () => {
                                                     required=""
                                                     value={dob ? dob.toDateString() : ""}
                                                     onFocus={() => setShowCalendar(true)}
-
                                                 />
                                                 {showCalendar && (
                                                     <div className="calendar-container" style={{ position: "absolute", zIndex: 1000 }}>
@@ -402,7 +406,7 @@ const AddEmployee = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="col-md-4">
+                                        <div className="col-md-3">
                                             <label className="form-label">Reporting Manager*</label>
                                             <select
                                                 className="form-control"
@@ -417,19 +421,6 @@ const AddEmployee = () => {
                                                 ))}
                                             </select>
                                         </div>
-                                        {/* <div className='col-sm-3'>
-                                            <label className='form-label'>Permission*</label>
-                                            <div className='position-relative'>
-                                                <input
-                                                    type='text'
-                                                    className='form-control wizard-required'
-                                                    required=''
-                                                    value={permission}
-                                                    onChange={(e) => setPermission(e.target.value)}
-                                                />
-                                                <div className='wizard-form-error' />
-                                            </div>
-                                        </div> */}
                                         <div className='col-sm-3'>
                                             <label className='form-label'>Job Role*</label>
                                             <div className='position-relative'>
@@ -478,7 +469,6 @@ const AddEmployee = () => {
                                                     required=""
                                                     value={joiningDate ? joiningDate.toDateString() : ""}
                                                     onFocus={() => setShowDateCalendar(true)}
-
                                                 />
                                                 {showDateCalendar && (
                                                     <div className="calendar-container" style={{ position: "absolute", zIndex: 1000 }}>

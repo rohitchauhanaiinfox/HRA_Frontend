@@ -13,6 +13,7 @@ const MastersLayer = () => {
     const [status, setstatus] = useState('Active');
     const [comment, setcomment] = useState('');
     const [allJobs, setAllJobs] = useState([]);
+    const [errors, setErrors] = useState({});
     const navigate = useNavigate();
     const [selectedRole, setSelectedRole] = useState({
         jobRoleName: "",
@@ -24,7 +25,26 @@ const MastersLayer = () => {
         getAllJobs();
     }, []);
 
+    const validateForm = () => {
+        let newErrors = {};
+        if (!name.trim()) newErrors.name = "Job Role Name is required";
+        if (!status.trim()) newErrors.status = "Status is required";
+        if (!comment.trim()) newErrors.comment = "Comment is required";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const validateUpdateForm = () => {
+        let newErrors = {};
+        if (!selectedRole.jobRoleName.trim()) newErrors.jobRoleName = "Job Role Name is required";
+        if (!selectedRole.title.trim()) newErrors.title = "Status is required";
+        if (!selectedRole.notes.trim()) newErrors.notes = "Comment is required";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const addJobRole = async (id) => {
+        if (!validateForm()) return;
         setButtonLoading(true);
         try {
             const data = {
@@ -50,7 +70,6 @@ const MastersLayer = () => {
         }
     }
 
-
     const getAllJobs = async () => {
         setLoading(true);
         try {
@@ -74,6 +93,7 @@ const MastersLayer = () => {
     };
 
     const updateRole = async (roleId, modalId) => {
+        if (!validateUpdateForm()) return;
         setButtonLoading(true);
         try {
             const data = {
@@ -111,7 +131,6 @@ const MastersLayer = () => {
         }
     };
 
-
     return (
         <>
             {loading ? (
@@ -138,7 +157,7 @@ const MastersLayer = () => {
                                                         value={name}
                                                         onChange={(e) => setname(e.target.value)}
                                                     />
-
+                                                    {errors.name && <small className="text-danger">{errors.name}</small>}
                                                 </div>
                                                 <div className="col-md-3">
                                                     <label className="form-label">Status</label>
@@ -150,6 +169,7 @@ const MastersLayer = () => {
                                                         <option value="Active">Active</option>
                                                         <option value="Inactive">Inactive</option>
                                                     </select>
+                                                    {errors.status && <small className="text-danger">{errors.status}</small>}
                                                 </div>
                                                 {/* comment */}
                                                 <div className="row mt-40">
@@ -162,6 +182,7 @@ const MastersLayer = () => {
                                                             value={comment}
                                                             onChange={(e) => setcomment(e.target.value)}
                                                         ></textarea>
+                                                        {errors.comment && <small className="text-danger">{errors.comment}</small>}
                                                     </div>
                                                 </div>
                                                 {buttonLoading ? (
@@ -256,7 +277,7 @@ const MastersLayer = () => {
                                                                                                                         value={selectedRole.jobRoleName}
                                                                                                                         onChange={(e) => setSelectedRole({ ...selectedRole, jobRoleName: e.target.value })}
                                                                                                                     />
-
+                                                                                                                    {errors.jobRoleName && <small className="text-danger">{errors.jobRoleName}</small>}
                                                                                                                 </div>
                                                                                                                 <div className="col-md-3">
                                                                                                                     <label className="form-label">Status</label>
@@ -268,6 +289,7 @@ const MastersLayer = () => {
                                                                                                                         <option value="Active">Active</option>
                                                                                                                         <option value="Inactive">Inactive</option>
                                                                                                                     </select>
+                                                                                                                    {errors.title && <small className="text-danger">{errors.title}</small>}
                                                                                                                 </div>
                                                                                                                 <div className="row mt-40">
                                                                                                                     <div className="col-12">
@@ -279,6 +301,7 @@ const MastersLayer = () => {
                                                                                                                             value={selectedRole.notes}
                                                                                                                             onChange={(e) => setSelectedRole({ ...selectedRole, notes: e.target.value })}
                                                                                                                         ></textarea>
+                                                                                                                        {errors.notes && <small className="text-danger">{errors.notes}</small>}
                                                                                                                     </div>
                                                                                                                 </div>
                                                                                                             </div>
@@ -298,7 +321,7 @@ const MastersLayer = () => {
                                                                                 <button type="button" className="border border-danger-600 bg-hover-danger-200 text-danger-600 text-md px-56 py-11 radius-8" data-bs-dismiss="modal">Cancel</button>
                                                                                 <button className="btn btn-primary-600 text-md px-56 py-11 radius-8"
                                                                                     disabled={buttonLoading}
-                                                                                    onClick={() => updateRole(role?.id, `#addCustomer${index}`)}
+                                                                                    onClick={() => updateRole(role?.id, `addCustomer${index}`)}
                                                                                 >
                                                                                     Submit
                                                                                 </button>
